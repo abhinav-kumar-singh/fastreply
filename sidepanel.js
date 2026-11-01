@@ -44,30 +44,19 @@ let hasClientId = Boolean(GOOGLE_OAUTH_CLIENT_ID);
 
 init();
 
-async function init() {
-  hasClientId = await readOauthStatus();
+function init() {
   bindChrome();
   tabs.compose.addEventListener("click", () => setView("compose"));
   tabs.profile.addEventListener("click", () => setView("profile"));
   tabs.log.addEventListener("click", () => setView("log"));
   accountBtn.addEventListener("click", onAccountClick);
-  await render();
+  render();
 }
 
 function bindChrome() {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") render();
   });
-}
-
-async function readOauthStatus() {
-  if (!globalThis.chrome?.runtime?.id) return Boolean(GOOGLE_OAUTH_CLIENT_ID);
-  try {
-    const response = await chrome.runtime.sendMessage({ type: "GET_OAUTH_STATUS" });
-    return Boolean(response?.hasClientId);
-  } catch {
-    return Boolean(GOOGLE_OAUTH_CLIENT_ID);
-  }
 }
 
 async function loadState() {
@@ -500,9 +489,21 @@ async function doSend(state, data) {
   }
 }
 
+function sendToBackground(message) {
+  if (!globalThis.chrome?.runtime?.id) {
+    return Promise.reject(
+      new Error("Open FastReply as an unpacked Chrome extension to connect Gmail.")
+    );
+  }
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error("Chrome background did not respond.")), 8000);
+  });
+  return Promise.race([chrome.runtime.sendMessage(message), timeout]);
+}
+
 async function ensureToken(auth) {
   if (auth.accessToken) return auth.accessToken;
-  const response = await chrome.runtime.sendMessage({ type: "REFRESH_TOKEN" });
+  const response = await sendToBackground({ type: "REFRESH_TOKEN" });
   if (!response?.ok) throw new Error(response?.error || "Reconnect Gmail.");
   await saveAuth({ ...auth, accessToken: response.accessToken, mode: "gmail" });
   return response.accessToken;
@@ -510,7 +511,7 @@ async function ensureToken(auth) {
 
 async function connectGmail() {
   try {
-    const response = await chrome.runtime.sendMessage({ type: "CONNECT_GMAIL" });
+    const response = await sendToBackground({ type: "CONNECT_GMAIL" });
     if (!response?.ok) throw new Error(response?.error || "Could not connect Gmail.");
     await saveAuth({
       mode: "gmail",

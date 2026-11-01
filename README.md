@@ -51,4 +51,4 @@ From this folder:
 python3 -m http.server 43147
 ```
 
-Open `http://127.0.0.1:43147/preview.html`. Storage falls back to `localStorage`. Gmail Connect still needs the unpacked extension plus a client ID.
+Open `http://127.0.0.1:43147/preview.html` (same panel, no nested iframe). Storage falls back to `localStorage`. Gmail Connect still needs the unpacked extension plus a client ID.

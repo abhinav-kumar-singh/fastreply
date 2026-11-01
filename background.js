@@ -17,13 +17,6 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 });
 
 async function handleMessage(message) {
-  if (message.type === "GET_OAUTH_STATUS") {
-    return {
-      ok: true,
-      hasClientId: Boolean(GOOGLE_OAUTH_CLIENT_ID),
-    };
-  }
-
   if (message.type === "CONNECT_GMAIL") {
     const token = await getAccessToken(true);
     const email = await fetchGmailAddress(token);
