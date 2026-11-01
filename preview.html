@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FastReply — side panel preview</title>
+    <style>
+      :root {
+        --ink: #1c1917;
+        --paper: #ece4d9;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .job {
+        padding: 2rem 2.5rem;
+        max-width: 40rem;
+      }
+      .job p {
+        color: #5c534c;
+        line-height: 1.5;
+      }
+      .job code {
+        background: #fff;
+        padding: 0.1rem 0.35rem;
+      }
+      iframe {
+        width: 100%;
+        height: 100vh;
+        border: 0;
+        border-left: 1px solid #d7cdc2;
+        background: #f7f3ee;
+      }
+      @media (max-width: 720px) {
+        body {
+          grid-template-columns: 1fr;
+        }
+        iframe {
+          height: 100vh;
+          border-left: 0;
+          border-top: 1px solid #d7cdc2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="job">
+      <p>Chrome side panel preview</p>
+      <h1>Staff engineer — Northwind</h1>
+      <p>
+        Interested candidates: email your resume to
+        <code>hiring@northwind.example</code>. This page stands in for a LinkedIn
+        job tab. Use the panel on the right (Demo send) — load the folder as an
+        unpacked extension to get the real toolbar toggle.
+      </p>
+    </section>
+    <iframe title="FastReply" src="sidepanel.html"></iframe>
+  </body>
+</html>

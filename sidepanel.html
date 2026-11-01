@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FastReply</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="top">
+        <div>
+          <p class="brand">FastReply</p>
+          <p class="tag">Resume send from the job tab</p>
+        </div>
+        <button id="account-btn" class="account" hidden></button>
+      </header>
+
+      <div id="banner" class="banner" hidden></div>
+
+      <nav class="tabs" role="tablist" aria-label="FastReply sections">
+        <button id="tab-compose" class="tab is-active" role="tab" aria-selected="true">
+          Compose
+        </button>
+        <button id="tab-profile" class="tab" role="tab" aria-selected="false">Profile</button>
+        <button id="tab-log" class="tab" role="tab" aria-selected="false">Sent</button>
+      </nav>
+
+      <main id="main" class="main"></main>
+    </div>
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
